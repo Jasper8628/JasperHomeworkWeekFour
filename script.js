@@ -1,22 +1,42 @@
 
 
-var buttonOne = document.querySelector("#button-one");
-var buttonTwo = document.querySelector("#button-two");
-var buttonThree = document.querySelector("#button-three");
-var buttonFour = document.querySelector("#button-four");
-var questionIndex=0;
+var questionIndex = 0;
+var theAnswer;
+var question = document.querySelector("#question");
+function displayQuestion(questionIndex) {
+  var createQuestion=document.createElement("p");
+  createQuestion.textContent=questionSetOne[questionIndex].title;
+  question.appendChild(createQuestion);
+  for (var i = 0; i < questionSetOne[questionIndex].choices.length; i++) {
+    var createButton = document.createElement("button");
+    //console.log(questionSetOne[questionIndex].choices);
+    //console.log(questionSetOne[questionIndex].choices.length);
+    createButton.textContent = questionSetOne[questionIndex].choices[i];
+    createButton.setAttribute("class","choice");
+    question.appendChild(createButton);
+    document.querySelector("button").addEventListener("click",function(event){
+      event.preventDefault();
+      console.log(this.textContent);
+    });
+  }
+  theAnswer=questionSetOne[questionIndex].answer;
+  console.log(theAnswer)
+  
 
+}
+
+/*
 var corretAnswer = questionSetOne[questionIndex].answer;
 function displayQuestion(index) {
-   
+
   buttonTwo.textContent = questionSetOne[index].choices[1];
   buttonThree.textContent = questionSetOne[index].choices[2];
   buttonFour.textContent = questionSetOne[index].choices[3];
   buttonOne.textContent = questionSetOne[index].choices[0];
   corretAnswer=questionSetOne[index].answer;
 
-}
-
+} */
+/* 
 function checkAnswer(buttonNumber, answer) {
   event.preventDefault();
   if (buttonNumber.textContent === answer) {
@@ -28,28 +48,10 @@ function checkAnswer(buttonNumber, answer) {
   else {
     alert("wrong answer");
   }
-}
-
-buttonOne.addEventListener("click", function (event) {
-  checkAnswer(buttonOne, corretAnswer);
-});
-buttonTwo.addEventListener("click", function (event) {
-  checkAnswer(buttonTwo, corretAnswer);
-});
-buttonThree.addEventListener("click", function (event) {
-  checkAnswer(buttonThree, corretAnswer);
-});
-buttonFour.addEventListener("click", function (event) {
-  checkAnswer(buttonFour, corretAnswer);
-});
+} */
 displayQuestion(0);
 
 
-
-
-
-console.log(corretAnswer);
-console.log(typeof corretAnswer);
 
 
 

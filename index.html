@@ -8,28 +8,97 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="./style.css" />
-  <title>Password Generator</title>
+  <title>Quiz App</title>
 </head>
 
 <body class="todos">
   <header>
     <h1>Quiz App</h1>
   </header>
-  <div class="todos container">
-    
-
-    
+  <div class=" container" id="question">
 
 
-    <button type="button" class="btn btn-danger btn-lg" id="button-one"> </button>
-    <button type="button" class="btn btn-secondary btn-lg" id="button-two"></button>
-    <button type="button" class="btn btn-secondary btn-lg" id="button-three"></button>
-    <button type="button" class="btn btn-secondary btn-lg" id="button-four"></button>
+
+
 
   </div>
-  <script type= "text/javascript" src="./questions.js"></script>
+  <script type="text/javascript" src="./questions.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  <script type= "text/javascript"src="./script.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var timerId = setInterval(countdown, 1000);
+      var timeLeft=32;
+
+      var questionIndex = 0;
+      var theAnswer;
+      var theChoice;
+      var theScore = 0;
+      localStorage.setItem("Score", 0);
+      localStorage.setItem("Initial", "John Smith");
+
+      function countdown(){
+        if(timeLeft==0){
+          clearTimeout(timerId);
+          alert("time's up");
+        }
+        else{
+          timeLeft=timeLeft-1;
+          console.log(timeLeft);
+        }
+
+      }
+
+      function displayQuestion(questionIndex) {
+
+        var numOfChoices = questionSetOne[questionIndex].choices.length;
+        var createQuestion = $('<p>');
+        createQuestion.text(questionSetOne[questionIndex].title);
+        $("#question").append(createQuestion);
+        for (var i = 0; i < numOfChoices; i++) {
+          var createButton = $('<button>');
+          var buttonValue = questionSetOne[questionIndex].choices[i];
+          createButton.text(buttonValue);
+          createButton.addClass("choice");
+          $("#question").append(createButton);
+        }
+        theAnswer = questionSetOne[questionIndex].answer;
+        buttonClick();
+      }
+
+      function buttonClick() {
+        $(".choice").on("click", function () {
+          theChoice = $(this).text();
+          console.log(theChoice);
+          if (theChoice === theAnswer) {
+            theScore = theScore + 1;
+            localStorage.setItem("Score", theScore);
+          }
+          else {
+            timeLeft=timeLeft-15;
+          }
+          $("p").remove();
+          $("button").remove();
+          console.log(localStorage.getItem("Score"));
+          questionIndex = questionIndex + 1;
+          displayQuestion(questionIndex);
+        });
+
+      }
+
+      displayQuestion(0);
+      countdown();
+
+
+
+
+
+
+    });
+
+
+
+  </script>
 </body>
 
 </html>
