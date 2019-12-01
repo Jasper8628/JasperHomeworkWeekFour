@@ -54,6 +54,7 @@
         var userInput;
         var timer = $('<list>');
         var score = $('<list>');
+        var letters=["A","B","C","D","E"];
 
         $("#time-remaining").append(timer);
         $("#score").append(score);
@@ -92,10 +93,10 @@
             createQuestion.text(questionSetOne[questionIndex].title);
             $("#question").append(createQuestion);
             for (var i = 0; i < numOfChoices; i++) {
+              var letter=letters[i];
               var createButton = $('<button>');
               var buttonText = questionSetOne[questionIndex].choices[i];
-              var numIndex = i + 1;
-              createButton.text(numIndex + ". " + buttonText);
+              createButton.text(letter + ". " + buttonText);
               createButton.addClass("btn btn-lg btn-primary choice text-left");
               createButton.attr("value", i);
               $("#options").append(createButton);
