@@ -22,13 +22,13 @@ input {
 
 ul {
   list-style-type: none;
-  padding: 0;
+  padding: 5px;
   background-color: white;
 }
 
 li {
   height: 50px;
-  margin: 10px;
+  margin-right: 20px;
   
   padding: 5px;
   background-color: #ff5d88;
