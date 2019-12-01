@@ -15,12 +15,20 @@
   <header>
     <h1>Quiz App</h1>
   </header>
-  <div class=" container" id="question">
+  <div class=" container" >
+    <div class="row">
+      <div class="col-md-12" >
+        <h3 id="question"></h3>
 
+      </div>
+      <div class="col-md-6,col-xs-12 list-group" id="options">
+        <div>
+          
+        </div>
+       
+      </div>
 
-
-
-
+    </div>
   </div>
   <script type="text/javascript" src="./questions.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -28,7 +36,7 @@
   <script type="text/javascript">
     $(document).ready(function () {
       var timerId = setInterval(countdown, 1000);
-      var timeLeft=32;
+      var timeLeft=150;
 
       var questionIndex = 0;
       var theAnswer;
@@ -55,12 +63,14 @@
         var createQuestion = $('<p>');
         createQuestion.text(questionSetOne[questionIndex].title);
         $("#question").append(createQuestion);
+        
         for (var i = 0; i < numOfChoices; i++) {
           var createButton = $('<button>');
           var buttonValue = questionSetOne[questionIndex].choices[i];
-          createButton.text(buttonValue);
-          createButton.addClass("choice");
-          $("#question").append(createButton);
+          var numIndex=i+1;
+          createButton.text(numIndex +". "+ buttonValue);
+          createButton.addClass("btn btn-lg btn-primary choice text-left");
+          $("#options").append(createButton);
         }
         theAnswer = questionSetOne[questionIndex].answer;
         buttonClick();

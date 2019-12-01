@@ -14,10 +14,7 @@ function displayQuestion(questionIndex) {
     createButton.textContent = questionSetOne[questionIndex].choices[i];
     createButton.setAttribute("class","choice");
     question.appendChild(createButton);
-    document.querySelector("button").addEventListener("click",function(event){
-      event.preventDefault();
-      console.log(this.textContent);
-    });
+    
   }
   theAnswer=questionSetOne[questionIndex].answer;
   console.log(theAnswer)
