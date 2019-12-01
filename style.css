@@ -50,5 +50,6 @@ li button:hover {
 }
 
 button{
+  font-size:1.8em;
   margin:3px;
 }
