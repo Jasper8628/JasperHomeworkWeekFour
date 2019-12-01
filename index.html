@@ -19,7 +19,7 @@
     <div class="row">
       <div class="col-md-6" id="score"> </div>
 
-      <div class="col-md-6" id="time-remaining"></div>
+      <div class="col-md-6 text-right" id="time-remaining"></div>
 
 
     </div>
@@ -57,7 +57,7 @@
         var letters=["A","B","C","D","E"];
 
         $("#time-remaining").append(timer);
-        $("#score").append(score);
+        $("#time-remaining").append(score);
 
         function landingPage() {
           var createQuestion = $('<p>');
