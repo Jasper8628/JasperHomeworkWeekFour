@@ -37,7 +37,6 @@ li {
   line-height: 1.5;
 }
 li button {
-  float: right;
   border: none;
   height: 40px;
   cursor: pointer;
