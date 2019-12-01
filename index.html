@@ -13,7 +13,15 @@
 
 <body class="todos">
   <header>
-    <h1>Quiz App</h1>
+    <div class="container">
+     <div class="row">
+      <div class="col-md-6">    
+        <h1>Quiz App</h1>
+      </div>
+      <div class="col-md-6" id="tracker">
+      </div>
+     </div>
+    </div>
   </header>
   <div class=" container">
     <div class="row">
@@ -56,8 +64,8 @@
         var score = $('<list>');
         var letters=["A","B","C","D","E"];
 
-        $("#time-remaining").append(timer);
-        $("#time-remaining").append(score);
+        $("#tracker").append(score);
+        $("#tracker").append(timer);
 
         function landingPage() {
           var createQuestion = $('<p>');
