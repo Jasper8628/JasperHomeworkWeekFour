@@ -44,8 +44,6 @@
     <script type="text/javascript">
       $(document).ready(function () {
 
-
-
         var timeLeft = 150;
         var timerId;
         var questionIndex = 0;
@@ -59,8 +57,6 @@
 
         $("#time-remaining").append(timer);
         $("#score").append(score);
-        localStorage.setItem("score", 0);
-        localStorage.setItem("Initial", "John Smith");
 
         function landingPage() {
           var createQuestion = $('<p>');
@@ -68,12 +64,10 @@
           createButton.text("Start");
           createButton.addClass("btn btn-lg btn-primary choice text-center");
           createQuestion.text("You have limited time to complete the quiz, press the 'Start' button to start the timer");
-
           $("#options").append(createButton);
           $("#question").append(createQuestion);
           $("button").on("click", function () {
             score.text("Score: 0");
-
             timerId = setInterval(countdown, 1000);
             function countdown() {
               if (timeLeft == 0) {
@@ -89,6 +83,47 @@
           });
         }
 
+        function displayQuestion(questionIndex) {
+          $("p").remove();
+          $("button").remove();
+          if (questionIndex < questionSetOne.length) {
+            var numOfChoices = questionSetOne[questionIndex].choices.length;
+            var createQuestion = $('<p>');
+            createQuestion.text(questionSetOne[questionIndex].title);
+            $("#question").append(createQuestion);
+            for (var i = 0; i < numOfChoices; i++) {
+              var createButton = $('<button>');
+              var buttonText = questionSetOne[questionIndex].choices[i];
+              var numIndex = i + 1;
+              createButton.text(numIndex + ". " + buttonText);
+              createButton.addClass("btn btn-lg btn-primary choice text-left");
+              createButton.attr("value", i);
+              $("#options").append(createButton);
+            }
+            theAnswer = questionSetOne[questionIndex].answer;
+            answerValue = questionSetOne[questionIndex].choices.indexOf(theAnswer);
+            buttonClick();
+          }
+          else {
+            enterInfo();
+          }
+        }
+
+        function buttonClick() {
+          $(".choice").on("click", function () {
+            if (parseInt($(this).attr("value")) === answerValue) {
+              theScore = theScore + 1;
+              score.text("Score: " + theScore);
+              localStorage.setItem("Score", theScore);
+            }
+            else {
+              timeLeft = timeLeft - 15;
+            }
+            questionIndex = questionIndex + 1;
+            displayQuestion(questionIndex);
+          });
+        }
+
         function enterInfo() {
           clearTimeout(timerId);
           $("list").remove();
@@ -97,11 +132,10 @@
           var createButton = $('<button>');
           var createLabel = $('<label>');
           var createInput = $('<input>');
-
           createButton.text("Submit");
           createButton.addClass("btn btn-lg btn-primary choice text-center");
-          createQuestion.text("Your score is: " + theScore );
-          createQuestion2.text( "Time remaining: " + timeLeft + " seconds");
+          createQuestion.text("Your score is: " + theScore);
+          createQuestion2.text("Time remaining: " + timeLeft + " seconds");
           createLabel.text("Please enter your initial: ");
           createInput.addClass("initial-here");
           $("#options").append(createButton);
@@ -111,91 +145,28 @@
           $("#question").append(createInput);
           $("button").on("click", function () {
             userInput = $("input").val();
-
-
             localStorage.setItem("initial", userInput);
             localStorage.setItem("score", timeLeft);
             leaderBoard();
           });
         }
+
         function leaderBoard() {
           $("p").remove();
           $("button").remove();
           $("label").remove();
           $("input").remove();
-
           var display = $('<p>');
           var display2 = $('<p>');
-          display.text("Initial: "+ localStorage.getItem("initial"));
-          display2.text("Score: "+ localStorage.getItem("score"));
+          display.text("Initial: " + localStorage.getItem("initial"));
+          display2.text("Score: " + localStorage.getItem("score"));
           $("#question").append(display);
           $("#question").append(display2);
         }
 
-
-
-        function displayQuestion(questionIndex) {
-
-          $("p").remove();
-          $("button").remove();
-          if (questionIndex < questionSetOne.length) {
-            var numOfChoices = questionSetOne[questionIndex].choices.length;
-            var createQuestion = $('<p>');
-            createQuestion.text(questionSetOne[questionIndex].title);
-            $("#question").append(createQuestion);
-
-            for (var i = 0; i < numOfChoices; i++) {
-              var createButton = $('<button>');
-              var buttonValue = questionSetOne[questionIndex].choices[i];
-              var numIndex = i + 1;
-              createButton.text(numIndex + ". " + buttonValue);
-              createButton.addClass("btn btn-lg btn-primary choice text-left");
-              createButton.attr("value", i);
-              $("#options").append(createButton);
-            }
-            theAnswer = questionSetOne[questionIndex].answer;
-            answerValue = questionSetOne[questionIndex].choices.indexOf(theAnswer);
-
-            buttonClick();
-          }
-          else {
-            enterInfo();
-          }
-
-        }
-
-        function buttonClick() {
-          $(".choice").on("click", function () {
-            theChoice = $(this).text();
-            console.log($(this).attr("value"));
-
-            if (parseInt($(this).attr("value")) === answerValue) {
-              theScore = theScore + 1;
-              score.text("Score: " + theScore);
-              localStorage.setItem("Score", theScore);
-            }
-            else {
-              timeLeft = timeLeft - 15;
-            }
-            console.log(localStorage.getItem("Score"));
-
-            questionIndex = questionIndex + 1;
-            displayQuestion(questionIndex);
-          });
-
-        }
-
         landingPage();
 
-
-
-
-
-
-
       });
-
-
 
     </script>
 </body>
