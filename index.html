@@ -24,7 +24,7 @@
 
     </div>
 
-    <div class="row" >
+    <div class="row">
 
 
       <div class="col-md-12">
@@ -59,7 +59,7 @@
 
         $("#time-remaining").append(timer);
         $("#score").append(score);
-        localStorage.setItem("Score", 0);
+        localStorage.setItem("score", 0);
         localStorage.setItem("Initial", "John Smith");
 
         function landingPage() {
@@ -82,7 +82,7 @@
               }
               else {
                 timeLeft = timeLeft - 1;
-                timer.text("Time remaining: "+ timeLeft);
+                timer.text("Time remaining: " + timeLeft);
               }
             }
             displayQuestion(questionIndex);
@@ -93,28 +93,30 @@
           clearTimeout(timerId);
           $("list").remove();
           var createQuestion = $('<p>');
+          var createQuestion2 = $('<p>');
           var createButton = $('<button>');
           var createLabel = $('<label>');
           var createInput = $('<input>');
 
           createButton.text("Submit");
           createButton.addClass("btn btn-lg btn-primary choice text-center");
-          createQuestion.text("Your score is: " + theScore + "\n Time remaining: " + timeLeft + " seconds");
+          createQuestion.text("Your score is: " + theScore );
+          createQuestion2.text( "Time remaining: " + timeLeft + " seconds");
           createLabel.text("Please enter your initial: ");
-          createInput.addClass("Initial-here");
+          createInput.addClass("initial-here");
           $("#options").append(createButton);
           $("#question").append(createQuestion);
+          $("#question").append(createQuestion2);
           $("#question").append(createLabel);
           $("#question").append(createInput);
-          userInput = $(".initial-here").val();
           $("button").on("click", function () {
-            console.log(userInput);
+            userInput = $("input").val();
 
 
-            localStorage.setItem(userInput, timeLeft);
-            console.log(localStorage);
+            localStorage.setItem("initial", userInput);
+            localStorage.setItem("score", timeLeft);
             leaderBoard();
-          })
+          });
         }
         function leaderBoard() {
           $("p").remove();
@@ -122,16 +124,17 @@
           $("label").remove();
           $("input").remove();
 
-          console.log(userInput);
           var display = $('<p>');
-          display.text(localStorage);
+          var display2 = $('<p>');
+          display.text("Initial: "+ localStorage.getItem("initial"));
+          display2.text("Score: "+ localStorage.getItem("score"));
           $("#question").append(display);
+          $("#question").append(display2);
         }
 
 
 
         function displayQuestion(questionIndex) {
-
 
           $("p").remove();
           $("button").remove();
@@ -154,7 +157,6 @@
             answerValue = questionSetOne[questionIndex].choices.indexOf(theAnswer);
 
             buttonClick();
-
           }
           else {
             enterInfo();
@@ -169,7 +171,7 @@
 
             if (parseInt($(this).attr("value")) === answerValue) {
               theScore = theScore + 1;
-              score.text("Score: "+ theScore);
+              score.text("Score: " + theScore);
               localStorage.setItem("Score", theScore);
             }
             else {
