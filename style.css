@@ -36,18 +36,6 @@ li {
   font-size: 1.5em;
   line-height: 1.5;
 }
-
-li:before {
-  content: "\200B";
-  position: absolute;
-}
-
-li::after {
-  content: " ";
-  display: block;
-  clear: both;
-}
-
 li button {
   float: right;
   border: none;
@@ -62,8 +50,6 @@ li button:hover {
   background-color: #febc5d;
 }
 
-.todos {
-  width: 800px;
-  margin: 0 auto;
-  margin-top: 40px;
+button{
+  margin:3px;
 }
