@@ -7,7 +7,7 @@
 body {
   background-color: white;
   font-family: "Concert One";
-  font-size: 16px;
+  font-size: 1.5em;
 }
 
 input {
@@ -50,6 +50,6 @@ li button:hover {
 }
 
 button{
-  font-size:85%;
+  font-size:1em;
   margin:3px;
 }
