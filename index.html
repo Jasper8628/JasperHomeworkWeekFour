@@ -11,180 +11,174 @@
   <title>Quiz App</title>
 </head>
 
-<body class="todos">
-  
-    <div class="container">
-     <div class="row navbar sticky-top">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">    
-       <header>
-        <h1>Quiz App</h1>
-       </header>
+<body>
+
+  <div class="container">
+    <div class="row text-left">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+        <header>
+          <h1>Quiz App</h1>
+        </header>
       </div>
-      <div class="col-md-3 col-sm-3 col-xs-12 text-right" id="score">
+      <div class="col-md-3 col-sm-3 col-xs-12 text-right " id="score">
       </div>
       <div class="col-md-3 col-sm-3 col-xs-12 text-right" id="time-left">
       </div>
-     </div>
     </div>
-  
+  </div>
+
   <div class=" container">
     <div class="row">
-      <div class="col-md-6"> </div>
-
-      <div class="col-md-6" ></div>
-
-
-    </div>
-
-    <div class="row">
-
-
       <div class="col-md-12">
         <h3 id="question"></h3>
-
       </div>
-      <div class="col-md-3 col-sm-6 col-xs-12 list-group" id="options">
-
-
+      <div class="col-md-4 col-sm-6 col-xs-12" id="input">
       </div>
+
     </div>
+    <div class="row">
+      <div class=" list-group" id="options">
+      </div>
 
+    </div>
+  </div>
 
-    <script type="text/javascript" src="./questions.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./questions.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
-      $(document).ready(function () {
+  <script type="text/javascript">
+    $(document).ready(function () {
 
-        var timeLeft = 150;
-        var timerId;
-        var questionIndex = 0;
-        var theAnswer;
-        var answerValue;
-        var theChoice;
-        var theScore = 0;
-        var userInput;
-        var timer = $('<list>');
-        var score = $('<list>');
-        var letters=["A","B","C","D","E"];
-        timer.addClass("text-right");
-        score.addClass("text-right");
-        $("#score").append(score);
-        $("#time-left").append(timer);
+      var timeLeft = 150;
+      var timerId;
+      var questionIndex = 0;
+      var theAnswer;
+      var answerValue;
+      var theChoice;
+      var theScore = 0;
+      var userInput;
+      var timer = $('<list>');
+      var score = $('<list>');
+      var letters = ["A", "B", "C", "D", "E"];
+      timer.addClass("text-right");
+      score.addClass("text-right");
+      $("#score").append(score);
+      $("#time-left").append(timer);
 
-        function landingPage() {
-          var createQuestion = $('<p>');
-          var createButton = $('<button>');
-          createButton.text("Start");
-          createButton.addClass("btn btn-lg btn-primary choice text-center");
-          createQuestion.text("You have limited time to complete the quiz, press the 'Start' button to start the timer");
-          $("#options").append(createButton);
-          $("#question").append(createQuestion);
-          $("button").on("click", function () {
-            score.text("Score: 0  ");
-            timerId = setInterval(countdown, 1000);
-            function countdown() {
-              if (timeLeft == 0) {
-                clearTimeout(timerId);
-                enterInfo();
-              }
-              else {
-                timeLeft = timeLeft - 1;
-                timer.text("Time remaining: " + timeLeft+"s");
-              }
-            }
-            displayQuestion(questionIndex);
-          });
-        }
-
-        function displayQuestion(questionIndex) {
-          $("p").remove();
-          $("button").remove();
-          if (questionIndex < questionSetOne.length) {
-            var numOfChoices = questionSetOne[questionIndex].choices.length;
-            var createQuestion = $('<p>');
-            createQuestion.text(questionSetOne[questionIndex].title);
-            $("#question").append(createQuestion);
-            for (var i = 0; i < numOfChoices; i++) {
-              var letter=letters[i];
-              var createButton = $('<button>');
-              var buttonText = questionSetOne[questionIndex].choices[i];
-              createButton.text(letter + ". " + buttonText);
-              createButton.addClass("btn btn-lg btn-primary choice text-left");
-              createButton.attr("value", i);
-              $("#options").append(createButton);
-            }
-            theAnswer = questionSetOne[questionIndex].answer;
-            answerValue = questionSetOne[questionIndex].choices.indexOf(theAnswer);
-            buttonClick();
-          }
-          else {
-            enterInfo();
-          }
-        }
-
-        function buttonClick() {
-          $(".choice").on("click", function () {
-            if (parseInt($(this).attr("value")) === answerValue) {
-              theScore = theScore + 1;
-              score.text("Score: " + theScore);
-              localStorage.setItem("Score", theScore);
+      function landingPage() {
+        var createQuestion = $('<p>');
+        var createButton = $('<button>');
+        createButton.text("Start");
+        createButton.addClass("btn btn-lg btn-primary choice text-center");
+        createQuestion.text("You have limited time to complete the quiz, press the 'Start' button to start the timer");
+        $("#options").append(createButton);
+        $("#question").append(createQuestion);
+        $("button").on("click", function () {
+          score.text("Score: 0  ");
+          timerId = setInterval(countdown, 1000);
+          function countdown() {
+            if (timeLeft == 0) {
+              clearTimeout(timerId);
+              enterInfo();
             }
             else {
-              timeLeft = timeLeft - 15;
+              timeLeft = timeLeft - 1;
+              timer.text("Time remaining: " + timeLeft + "s");
             }
-            questionIndex = questionIndex + 1;
-            displayQuestion(questionIndex);
-          });
-        }
+          }
+          displayQuestion(questionIndex);
+        });
+      }
 
-        function enterInfo() {
-          $("p").remove();
-          $("button").remove();
-          clearTimeout(timerId);
-          $("list").remove();
+      function displayQuestion(questionIndex) {
+        $("p").remove();
+        $("button").remove();
+        if (questionIndex < questionSetOne.length) {
+          var numOfChoices = questionSetOne[questionIndex].choices.length;
           var createQuestion = $('<p>');
-          var createQuestion2 = $('<p>');
-          var createButton = $('<button>');
-          var createLabel = $('<label>');
-          var createInput = $('<input>');
-          createButton.text("Submit");
-          createButton.addClass("btn btn-lg btn-primary choice text-center");
-          createQuestion.text("Your score is: " + theScore);
-          createQuestion2.text("Time remaining: " + timeLeft + " seconds");
-          createLabel.text("Please enter your initial: ");
-          createInput.addClass("initial-here");
-          $("#options").append(createButton);
+          createQuestion.text(questionSetOne[questionIndex].title);
           $("#question").append(createQuestion);
-          $("#question").append(createQuestion2);
-          $("#question").append(createLabel);
-          $("#question").append(createInput);
-          $("button").on("click", function () {
-            userInput = $("input").val();
-            localStorage.setItem("initial", userInput);
-            localStorage.setItem("score", timeLeft);
-            leaderBoard();
-          });
+          for (var i = 0; i < numOfChoices; i++) {
+            var letter = letters[i];
+            var createButton = $('<button>');
+            var buttonText = questionSetOne[questionIndex].choices[i];
+            createButton.text(letter + ". " + buttonText);
+            createButton.addClass("btn btn-lg btn-primary choice text-left");
+            createButton.attr("value", i);
+            $("#options").append(createButton);
+          }
+          theAnswer = questionSetOne[questionIndex].answer;
+          answerValue = questionSetOne[questionIndex].choices.indexOf(theAnswer);
+          buttonClick();
         }
-
-        function leaderBoard() {
-          $("p").remove();
-          $("button").remove();
-          $("label").remove();
-          $("input").remove();
-          var display = $('<p>');
-          var display2 = $('<p>');
-          display.text("Initial: " + localStorage.getItem("initial"));
-          display2.text("Score: " + localStorage.getItem("score"));
-          $("#question").append(display);
-          $("#question").append(display2);
+        else {
+          enterInfo();
         }
+      }
 
-        landingPage();
+      function buttonClick() {
+        $(".choice").on("click", function () {
+          if (parseInt($(this).attr("value")) === answerValue) {
+            theScore = theScore + 1;
+            score.text("Score: " + theScore);
+            localStorage.setItem("Score", theScore);
+          }
+          else {
+            timeLeft = timeLeft - 15;
+          }
+          questionIndex = questionIndex + 1;
+          displayQuestion(questionIndex);
+        });
+      }
 
-      });
+      function enterInfo() {
+        $("p").remove();
+        $("button").remove();
+        clearTimeout(timerId);
+        $("list").remove();
+        var createQuestion = $('<p>');
+        var createQuestion2 = $('<p>');
+        var createButton = $('<button>');
+        var createLabel = $('<label>');
+        var createInput = $('<input>');
+        createButton.text("Submit");
+        createButton.addClass("btn btn-lg btn-primary choice text-center");
+        createQuestion.text("Your score is: " + theScore);
+        createQuestion2.text("Time remaining: " + timeLeft + " seconds");
+        createLabel.text("Please enter your initial: ");
+        createInput.addClass("initial-here");
+        $("#options").append(createButton);
+        $("#question").append(createQuestion);
+        $("#question").append(createQuestion2);
+        $("#question").append(createLabel);
+        $("#input").append(createInput);
+        $("button").on("click", function () {
+          userInput = $("input").val();
+          localStorage.setItem("initial", userInput);
+          localStorage.setItem("score", timeLeft);
+          leaderBoard();
+        });
+      }
 
-    </script>
+      function leaderBoard() {
+        $("p").remove();
+        $("button").remove();
+        $("label").remove();
+        $("input").remove();
+        var display = $('<p>');
+        var display2 = $('<p>');
+        display.text("Initial: " + localStorage.getItem("initial"));
+        display2.text("Score: " + localStorage.getItem("score"));
+        $("#question").append(display);
+        $("#question").append(display2);
+      }
+
+      landingPage();
+
+    });
+
+  </script>
 </body>
 
 </html>
