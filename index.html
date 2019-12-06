@@ -61,6 +61,8 @@
       var timer = $('<list>');
       var score = $('<list>');
       var letters = ["A", "B", "C", "D", "E"];
+      var rank=localStorage.getItem("array");
+      var entry={initial:"",score:""};
       timer.addClass("text-right");
       score.addClass("text-right");
       $("#score").append(score);
@@ -155,8 +157,12 @@
         $("#input").append(createInput);
         $("button").on("click", function () {
           userInput = $("input").val();
-          localStorage.setItem("initial", userInput);
-          localStorage.setItem("score", timeLeft);
+          entry.initial=userInput;
+          entry.score=timeLeft;
+          rank.push(entry);
+          
+           localStorage.setItem("array":rank);    
+           
           leaderBoard();
         });
       }
@@ -166,12 +172,37 @@
         $("button").remove();
         $("label").remove();
         $("input").remove();
-        var display = $('<p>');
-        var display2 = $('<p>');
-        display.text("Initial: " + localStorage.getItem("initial"));
-        display2.text("Score: " + localStorage.getItem("score"));
-        $("#question").append(display);
-        $("#question").append(display2);
+        var createTable = $('<table>');
+        var createThead = $('<thead>');
+        var createTbody = $('<tbody>');
+        var createTrow = $('<tr>');
+        var createTrow2 = $('<tr>');
+        var display = $('<th>');
+        var display2 = $('<th>');
+        var display3 = $('<td>');
+        var display4 =$('<td>');
+        display.text("Initial");
+        display2.text("Score");
+        $("#question").append(createTable);
+        createTable.append(createThead);
+        createTable.append(createTbody);
+        createThead.append(createTrow);
+        createTrow.append(display);
+        createTrow.append(display2);
+        createTbody.append(createTrow2);
+        rank.sort(function(a,b){
+         return b.score-a.score;
+         });
+        for(i=0;i<10;i++){
+         display3.text(rank[i].initial);
+         display4.text(rank[i].score);
+         createTrow2.append(display3);
+         createTrow2.append(display4);
+         
+         }
+        
+        
+        
       }
 
       landingPage();
