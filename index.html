@@ -61,8 +61,32 @@
       var timer = $('<list>');
       var score = $('<list>');
       var letters = ["A", "B", "C", "D", "E"];
-      var rank=localStorage.getItem("array");
-      var entry={initial:"",score:""};
+      var rank = [];
+      var user = [];
+      if (localStorage.getItem("leaderboard") != null) {
+        var buffer = localStorage.getItem("leaderboard");
+        rank = JSON.parse(buffer);
+
+      }
+      else {
+        rank = []
+      }
+
+      if (localStorage.getItem("User-list") != null) {
+        var buffer = localStorage.getItem("User-list");
+        user = JSON.parse(buffer);
+
+      }
+      else {
+        user = []
+      }
+      console.log(rank);
+      for (i = 0; i < rank.length; i++) {
+        console.log(rank[i].initial);
+        console.log(rank[i].score);
+      }
+      var object = '{"initial":"","score":""}';
+      var entry = JSON.parse(object);
       timer.addClass("text-right");
       score.addClass("text-right");
       $("#score").append(score);
@@ -157,12 +181,29 @@
         $("#input").append(createInput);
         $("button").on("click", function () {
           userInput = $("input").val();
-          entry.initial=userInput;
-          entry.score=timeLeft;
-          rank.push(entry);
-          
-           localStorage.setItem("array":rank);    
-           
+          entry.initial = userInput;
+          entry.score = timeLeft;
+          if (user.indexOf(userInput) == -1) {
+            user.push(userInput);
+            rank.push(entry);
+            localStorage.setItem("leaderboard", JSON.stringify(rank));
+            localStorage.setItem("User-list", JSON.stringify(user));
+
+          }
+          else if (rank[user.indexOf(userInput)].score < timeLeft) {
+            rank[user.indexOf(userInput)].score = timeLeft;
+            localStorage.setItem("leaderboard", JSON.stringify(rank));
+            localStorage.setItem("User-list", JSON.stringify(user));
+
+          }
+          else {
+
+            localStorage.setItem("leaderboard", JSON.stringify(rank));
+            localStorage.setItem("User-list", JSON.stringify(user));
+          }
+
+
+
           leaderBoard();
         });
       }
@@ -176,11 +217,8 @@
         var createThead = $('<thead>');
         var createTbody = $('<tbody>');
         var createTrow = $('<tr>');
-        var createTrow2 = $('<tr>');
         var display = $('<th>');
         var display2 = $('<th>');
-        var display3 = $('<td>');
-        var display4 =$('<td>');
         display.text("Initial");
         display2.text("Score");
         $("#question").append(createTable);
@@ -189,20 +227,48 @@
         createThead.append(createTrow);
         createTrow.append(display);
         createTrow.append(display2);
-        createTbody.append(createTrow2);
-        rank.sort(function(a,b){
-         return b.score-a.score;
-         });
-        for(i=0;i<10;i++){
-         display3.text(rank[i].initial);
-         display4.text(rank[i].score);
-         createTrow2.append(display3);
-         createTrow2.append(display4);
-         
-         }
-        
-        
-        
+        rank.sort(function (a, b) {
+          return b.score - a.score;
+        });
+        rank = JSON.parse(localStorage.getItem("leaderboard"));
+        console.log(rank);
+        if (rank.length <= 10) {
+          for (i = 0; i < rank.length; i++) {
+            console.log(rank[i]);
+            var text1 = rank[i].initial;
+            var text2 = rank[i].score;
+            var createTrow2 = $('<tr>');
+            var display3 = $('<td>');
+            var display4 = $('<td>');
+            display3.text(text1);
+            display4.text(text2);
+            createTbody.append(createTrow2);
+            createTrow2.append(display3);
+            createTrow2.append(display4);
+
+          }
+
+        }
+        else {
+          for (i = 0; i < 10; i++) {
+            console.log(rank[i]);
+            var text1 = rank[i].initial;
+            var text2 = rank[i].score;
+            var createTrow2 = $('<tr>');
+            var display3 = $('<td>');
+            var display4 = $('<td>');
+            display3.text(text1);
+            display4.text(text2);
+            createTbody.append(createTrow2);
+            createTrow2.append(display3);
+            createTrow2.append(display4);
+
+          }
+
+        }
+
+
+
       }
 
       landingPage();
